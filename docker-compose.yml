@@ -1,0 +1,75 @@
+version: '3.5'
+
+services:
+  jazz:
+    container_name: jazz
+    image: jazz:latest
+    depends_on:
+      - postgres
+      - voss
+    build:
+      context: .
+      dockerfile: Dockerfile-jazz
+    ports:
+      - "8081:8081"
+    networks:
+      - postgres
+    restart: unless-stopped
+    environment:
+      - VOSS_URL=http://voss:8080/api/v1/data
+      - POSTGRES_URL=jdbc:postgresql://postgres:5432/postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  voss:
+    container_name: voss
+    image: voss:latest
+    build:
+      context: .
+      dockerfile: Dockerfile-voss
+    ports:
+      - "8080:8080"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    container_name: postgres_container
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data
+    volumes:
+      - postgres:/var/lib/postgresql/data
+      - ./src/main/resources/init/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5433:5432"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+  pgadmin:
+    container_name: pgadmin_container
+    image: dpage/pgadmin4
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@mymail.ru
+      PGADMIN_DEFAULT_PASSWORD: adminpassword
+    volumes:
+      - pgadmin:/var/lib/pgadmin
+      - ./src/main/resources/json-servers/servers.json:/pgadmin4/servers.json
+    ports:
+      - "80:80"
+    networks:
+      - postgres
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
+  pgadmin:

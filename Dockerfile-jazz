@@ -1,0 +1,9 @@
+FROM openjdk:17-jdk
+
+WORKDIR /app
+
+COPY target/jazz-1.0.0.jar /app/jazz.jar
+
+ENTRYPOINT ["java", "-jar", "/app/jazz.jar"]
+
+EXPOSE 8081

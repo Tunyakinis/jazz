@@ -1,0 +1,20 @@
+micronaut:
+  application:
+    name: jazz
+  server:
+    port: 8081
+
+voss:
+  url: ${VOSS_URL}
+
+datasources:
+  default:
+    url: ${POSTGRES_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
+    driverClassName: org.postgresql.Driver
+    dialect: POSTGRES
+
+myapp:
+  schedule:
+    fetch-data-delay: 5s
