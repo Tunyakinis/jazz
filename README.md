@@ -21,8 +21,7 @@ java -version
 If the current version is different from 17, set up the `JAVA_HOME` variable to java 17, because
 maven uses the `JAVA_HOME` variable for build and execute.
 
-If the current version is 17 just run the following command in Cmd or PowerShell in downloaded
-jazz directory:
+If the current version is 17 just run the following command
 
 ```
 mvn clean package
