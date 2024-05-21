@@ -22,7 +22,7 @@ If the current version is different from 17, set up the `JAVA_HOME` variable to 
 maven uses the `JAVA_HOME` variable for build and execute.
 
 If the current version is 17 just run the following command in Cmd or PowerShell in downloaded
-food-ordering-system directory:
+jazz directory:
 
 ```
 mvn clean package
